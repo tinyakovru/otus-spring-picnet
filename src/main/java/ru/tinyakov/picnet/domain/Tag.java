@@ -10,7 +10,7 @@ import java.util.Set;
 @Data
 public class Tag {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String name;

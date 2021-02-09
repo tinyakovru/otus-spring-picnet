@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 @Table(name = "comment")
 public class Comment {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String text;

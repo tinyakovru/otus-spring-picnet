@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"/>
+
+<div class="container">
+
+    <div class="starter-template">
+        <h3>Welcome, Enter The Employee Details</h3>
+        <form method="POST"
+              action="/user/reg"
+              modelAttribute="UserDto">
+            <fieldset>
+                <table>
+                    <tr>
+                        <td>
+                            <label name="nickname">Name</label>
+                        </td>
+                        <td>
+                            <input name="nickname"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label name="pass">Password</label>
+                        </td>
+                        <td>
+                            <input name="pass"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label name="pass2">
+                                Retype password
+                            </label>
+                        </td>
+                        <td>
+                            <input name="pass2"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label name="email">Email</label>
+                        </td>
+                        <td>
+                            <input name="email"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="submit" value="Submit"/></td>
+                    </tr>
+                </table>
+            </fieldset>
+        </form>
+    </div>
+
+</div>
+<!-- /.container -->
+
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+</html>

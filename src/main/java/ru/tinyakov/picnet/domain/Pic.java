@@ -1,6 +1,8 @@
 package ru.tinyakov.picnet.domain;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -9,9 +11,11 @@ import java.util.Set;
 
 @Entity
 @Data
+@NoArgsConstructor
+@EqualsAndHashCode
 public class Pic {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String title;
     private String descr;
@@ -41,18 +45,28 @@ public class Pic {
 //    private long userId;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @EqualsAndHashCode.Exclude
     private User userOwner;
 
-    @ManyToMany(targetEntity = User.class, fetch = FetchType.LAZY)
+    @EqualsAndHashCode.Exclude
+    @ManyToMany(targetEntity = User.class, fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(name = "favorite",
-            joinColumns = @JoinColumn(name = "pic_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
+            joinColumns = @JoinColumn(name = "pic_id",
+                    referencedColumnName = "id",
+                    nullable = false,
+                    updatable = false),
+            inverseJoinColumns = @JoinColumn(name = "user_id",
+                    referencedColumnName = "id",
+                    nullable = false,
+                    updatable = false))
     private Set<User> usersFavorite;
 
+    @EqualsAndHashCode.Exclude
     @OneToMany(targetEntity = Comment.class, fetch = FetchType.LAZY, mappedBy = "pic")
     Set<Comment> comments;
 
     @ManyToMany
+    @EqualsAndHashCode.Exclude
     @JoinTable(name = "pic_tag",
             joinColumns = @JoinColumn(name = "pic_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id"))
