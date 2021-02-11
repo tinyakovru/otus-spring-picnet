@@ -52,12 +52,14 @@ public class PicController {
 
     //страница редактирования картинки
     //GET /pic/{id}/edit
+
+    ////////////////////////////////////////////////////
     //лайк картинки
     //POST /pic/{id}/favorite
-    @PostMapping("/pic/{pid}/favorite")
-    public ModelAndView addFavoritePic(@PathVariable long pid, Authentication authentication, Model model) {
-        String nickname = authentication.getName();
-        picService.addFavorite(pid, nickname);
-        return new ModelAndView("redirect:/pic/" + pid);
-    }
+//    @PostMapping("/pic/{pid}/favorite")
+//    public ModelAndView addFavoritePic(@PathVariable long pid, Authentication authentication, Model model) {
+//        String nickname = authentication.getName();
+//        picService.addFavorite(pid, nickname);
+//        return new ModelAndView("redirect:/pic/" + pid);
+//    }
 }

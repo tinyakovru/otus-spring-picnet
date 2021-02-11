@@ -45,10 +45,15 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Pic.class, mappedBy = "userOwner")
     private Set<Pic> ownPics;
 
+//    @JsonIgnore
+//    @EqualsAndHashCode.Exclude
+//    @ManyToMany(mappedBy = "usersFavorite", fetch = FetchType.LAZY)
+//    private Set<Pic> favoritePics;
+
     @JsonIgnore
     @EqualsAndHashCode.Exclude
-    @ManyToMany(mappedBy = "usersFavorite", fetch = FetchType.LAZY)
-    private Set<Pic> favoritePics;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Favorite.class, mappedBy = "user")
+    private Set<Favorite> favorites;
 
     public User(UserDto userDto){
         this.nickname   = userDto.getNickname();

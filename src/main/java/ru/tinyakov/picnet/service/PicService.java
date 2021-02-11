@@ -15,14 +15,14 @@ public class PicService {
     private final PicRepository picRepository;
     private final UserRepository userRepository;
 
-    public void addFavorite(long pid, String nickname){
-        Pic pic = picRepository.getOne(pid);
-        User user = userRepository.findByNickname(nickname);
-        pic.getUsersFavorite().addAll(Arrays.asList(user));
-        picRepository.save(pic);
-//        pic.getUsersFavorite().add(user);
+//    public void addFavorite(long pid, String nickname){
+//        Pic pic = picRepository.getOne(pid);
+//        User user = userRepository.findByNickname(nickname);
+//        pic.getUsersFavorite().addAll(Arrays.asList(user));
 //        picRepository.save(pic);
-    }
+////        pic.getUsersFavorite().add(user);
+////        picRepository.save(pic);
+//    }
 
     public Pic getPic(long id) {
         return picRepository.getOne(id);

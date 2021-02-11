@@ -23,7 +23,7 @@
         <h3 th:text="${picUrl}">url</h3>
 <!--        <div th:if="${auth == true}">-->
         <div>
-            <form th:action="@{'/pic/'+${picId}+'/favorite'}" th:method="post">
+            <form th:action="@{'/favorite/pic/'+${picId}}" th:method="post">
                 <input type="submit" />
             </form>
         </div>

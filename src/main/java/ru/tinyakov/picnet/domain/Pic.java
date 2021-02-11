@@ -1,5 +1,6 @@
 package ru.tinyakov.picnet.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -48,22 +49,27 @@ public class Pic {
     @EqualsAndHashCode.Exclude
     private User userOwner;
 
+//    @EqualsAndHashCode.Exclude
+//    @ManyToMany(targetEntity = User.class, fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+//    @JoinTable(name = "favorite",
+//            joinColumns = @JoinColumn(name = "pic_id",
+//                    referencedColumnName = "id",
+//                    nullable = false,
+//                    updatable = false),
+//            inverseJoinColumns = @JoinColumn(name = "user_id",
+//                    referencedColumnName = "id",
+//                    nullable = false,
+//                    updatable = false))
+//    private Set<User> usersFavorite;
+
+    @JsonIgnore
     @EqualsAndHashCode.Exclude
-    @ManyToMany(targetEntity = User.class, fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinTable(name = "favorite",
-            joinColumns = @JoinColumn(name = "pic_id",
-                    referencedColumnName = "id",
-                    nullable = false,
-                    updatable = false),
-            inverseJoinColumns = @JoinColumn(name = "user_id",
-                    referencedColumnName = "id",
-                    nullable = false,
-                    updatable = false))
-    private Set<User> usersFavorite;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Favorite.class, mappedBy = "pic")
+    private Set<Favorite> favorites;
 
     @EqualsAndHashCode.Exclude
     @OneToMany(targetEntity = Comment.class, fetch = FetchType.LAZY, mappedBy = "pic")
-    Set<Comment> comments;
+    private Set<Comment> comments;
 
     @ManyToMany
     @EqualsAndHashCode.Exclude
