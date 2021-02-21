@@ -11,20 +11,21 @@ import ru.tinyakov.picnet.repository.UserRepository;
 @Service
 @RequiredArgsConstructor
 public class FavoriteServiceImpl implements FavoriteService {
-
     private final FavoriteRepository favoriteRepository;
     private final UserRepository userRepository;
 
     @Override
     public Favorite create(String nickname, long picId) {
         User user = userRepository.findByNickname(nickname);
-
         Favorite favorite = new Favorite(new FavoriteKey(user.getId(), picId));
         return favoriteRepository.save(favorite);
     }
 
     @Override
-    public void delete(Favorite favorite) {
-        favoriteRepository.delete(favorite);
+    public void delete(String nickname, long picId) {
+        User user = userRepository.findByNickname(nickname);
+        favoriteRepository
+                .findById(new FavoriteKey(user.getId(), picId))
+                .ifPresent(favoriteRepository::delete);
     }
 }

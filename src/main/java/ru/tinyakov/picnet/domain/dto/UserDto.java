@@ -1,4 +1,4 @@
-package ru.tinyakov.picnet.domain;
+package ru.tinyakov.picnet.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

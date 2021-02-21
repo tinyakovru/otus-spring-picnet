@@ -3,7 +3,7 @@
 <head>
     <title>PicNet</title>
 
-<!--    <div th:replace="fragments/header :: header-css"/>-->
+    <div th:replace="fragments/header :: header-css"/>
 
 </head>
 <body>
@@ -12,19 +12,31 @@
 
 <div class="container">
 
-    <div class="starter-template">
+    <!--<div class="starter-template">
         <h1>Spring Boot Web Thymeleaf + Spring Security</h1>
         <h2>1. Visit <a th:href="@{/admin}">Admin page (Spring Security protected, Need Admin Role)</a></h2>
         <h2>2. Visit <a th:href="@{/user}">User page (Spring Security protected, Need User Role)</a></h2>
         <h2>3. Visit <a th:href="@{/about}">Normal page</a></h2>
-    </div>
+    </div>-->
     <div>
-        <h1 th:text="${picId}">pic id</h1>
-        <h3 th:text="${picUrl}">url</h3>
+        <h1 th:text="${pic.getTitle()}">title</h1>
+        <p>загрузил: <a th:text="${pic.getUserOwner().getNickname()}" th:href="@{/user/{id}(id=${pic.getUserOwner().getId()})}">user</a></p>
+        <img th:src="@{'/pics'+${pic.getUrlL()}}" src="">
+        <div class="starter-template" th:each="tag : ${pic.getTags()}">
+            <a th:text="${tag.getName()}" th:href="@{/pic/tag/{id}/pg/1(id=${tag.getId()})}"></a>
+        </div>
+        <div th:text="${pic.getDescr()}">description description description description description description </div>
 <!--        <div th:if="${auth == true}">-->
         <div>
-            <form th:action="@{'/favorite/pic/'+${picId}}" th:method="post">
-                <input type="submit" />
+            <form th:action="@{'/favorite/pic/'+${pic.getId()}}" th:method="post">
+                <input type="submit" value="like"/>
+            </form>
+
+            <form th:action="@{'/favorite/pic/'+${pic.getId()}}" th:method="delete">
+                <input type="submit" value="dislike"/>
+            </form>
+            <form th:action="@{'/comment/pic/'+${pic.getId()}}" th:method="DELETE">
+                <input type="submit" name="comment delete" value="comment delete" />
             </form>
         </div>
     </div>

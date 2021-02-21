@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import ru.tinyakov.picnet.domain.dto.UserDto;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -42,7 +43,7 @@ public class User {
 
     @JsonIgnore
     @EqualsAndHashCode.Exclude
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Pic.class, mappedBy = "userOwner")
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = Pic.class, mappedBy = "userOwner")
     private Set<Pic> ownPics;
 
 //    @JsonIgnore
@@ -52,13 +53,13 @@ public class User {
 
     @JsonIgnore
     @EqualsAndHashCode.Exclude
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Favorite.class, mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = Favorite.class, mappedBy = "user")
     private Set<Favorite> favorites;
 
-    public User(UserDto userDto){
-        this.nickname   = userDto.getNickname();
-        this.pass       = userDto.getPass();
-        this.email      = userDto.getEmail();
-        this.sol        = "";
+    public User(UserDto userDto) {
+        this.nickname = userDto.getNickname();
+        this.pass = userDto.getPass();
+        this.email = userDto.getEmail();
+        this.sol = "";
     }
 }

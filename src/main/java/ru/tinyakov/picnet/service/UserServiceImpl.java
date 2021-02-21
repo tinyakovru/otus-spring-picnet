@@ -1,5 +1,6 @@
 package ru.tinyakov.picnet.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -7,22 +8,18 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.tinyakov.picnet.domain.User;
-import ru.tinyakov.picnet.domain.UserDto;
+import ru.tinyakov.picnet.domain.dto.UserDto;
 import ru.tinyakov.picnet.exception.InvalidDataException;
 import ru.tinyakov.picnet.repository.UserRepository;
 
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 @Slf4j
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-
-    @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     @Override
     public Optional<User> getUserById(long id) {

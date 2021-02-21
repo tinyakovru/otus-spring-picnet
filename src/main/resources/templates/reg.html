@@ -1,7 +1,10 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <title>PicNet</title>
+
     <div th:replace="fragments/header :: header-css"/>
+
 </head>
 <body>
 
@@ -9,8 +12,44 @@
 
 <div class="container">
 
-    <div class="starter-template">
-        <h3>Welcome, Enter The Employee Details</h3>
+    <div class="row" style="margin-top:20px">
+        <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+            <form action="/user/reg" method="post">
+                <fieldset>
+                    <h1>Register form</h1>
+                    <div class="form-group">
+                        <input type="text" name="nickname" id="nickname" class="form-control input-lg"
+                               placeholder="Nickname" required="true" autofocus="true"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="email" id="email" class="form-control input-lg"
+                               placeholder="e-mail" required="true" autofocus="true"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="pass" id="pass" class="form-control input-lg"
+                               placeholder="Password" required="true"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="pass2" id="pass2" class="form-control input-lg"
+                               placeholder="retype password" required="true"/>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6">
+                            <input type="submit" class="btn btn-lg btn-primary btn-block" value="Register"/>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6">
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
+
+
+   <!-- <div class="starter-template">
+        <h3>Register form:</h3>
         <form method="POST"
               action="/user/reg"
               modelAttribute="UserDto">
@@ -56,7 +95,7 @@
                 </table>
             </fieldset>
         </form>
-    </div>
+    </div>-->
 
 </div>
 <!-- /.container -->

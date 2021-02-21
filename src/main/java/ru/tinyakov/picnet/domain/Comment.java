@@ -17,7 +17,7 @@ public class Comment {
 
     private Timestamp date;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Pic.class)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Pic.class)
     @JoinColumn(name = "pic_id")
     private Pic pic;
 

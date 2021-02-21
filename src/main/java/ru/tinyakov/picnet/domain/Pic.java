@@ -42,8 +42,6 @@ public class Pic {
     @Column(name = "moder_date")
     private Timestamp moderDate;
 
-    //    @Column(name = "user_id")
-//    private long userId;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @EqualsAndHashCode.Exclude
@@ -64,7 +62,7 @@ public class Pic {
 
     @JsonIgnore
     @EqualsAndHashCode.Exclude
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Favorite.class, mappedBy = "pic")
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = Favorite.class, mappedBy = "pic")
     private Set<Favorite> favorites;
 
     @EqualsAndHashCode.Exclude

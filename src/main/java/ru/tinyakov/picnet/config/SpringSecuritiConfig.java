@@ -1,19 +1,14 @@
 package ru.tinyakov.picnet.config;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
-import ru.tinyakov.picnet.service.PicnetUserDetailsService;
 
 import javax.sql.DataSource;
 
@@ -40,9 +35,9 @@ public class SpringSecuritiConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/", "/pic/**", "/about","/user/**","/home").permitAll()
                 .and()
-                .authorizeRequests().antMatchers("/pic/*/favorite").authenticated()
+                .authorizeRequests().antMatchers("/me/**").authenticated()
                 .and()
-                .authorizeRequests().antMatchers("/simple").hasAnyRole("ADMIN","ROLE_ADMIN","USER")
+                .authorizeRequests().antMatchers("/admin","/admin/**").hasAnyRole("ADMIN")
 //                .authorizeRequests().antMatchers("/admin/**").hasAnyRole( "ADMIN", "USER" )
 
 //                .antMatchers("/admin/**","/simple").hasAnyRole("ADMIN")
@@ -86,7 +81,7 @@ public class SpringSecuritiConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web
             .ignoring()
-            .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**");
+            .antMatchers("/resources/**", "/static/**", "/static/css/**", "/js/**", "/images/**");
     }
 
     @Bean

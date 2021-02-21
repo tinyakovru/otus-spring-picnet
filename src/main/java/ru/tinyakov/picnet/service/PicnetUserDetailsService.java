@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import ru.tinyakov.picnet.config.PicnetUserPrincipal;
+import ru.tinyakov.picnet.domain.PicnetUserPrincipal;
 import ru.tinyakov.picnet.domain.User;
 import ru.tinyakov.picnet.repository.UserRepository;
 

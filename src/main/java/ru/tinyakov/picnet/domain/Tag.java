@@ -1,5 +1,6 @@
 package ru.tinyakov.picnet.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -18,9 +19,11 @@ public class Tag {
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
     @ManyToMany(mappedBy = "tags")
+    @JsonIgnore
     private Set<Pic> pics;
 //    @OneToMany(mappedBy = "tag")
 //    private Set<PicTag> picTags;

@@ -1,9 +1,7 @@
 package ru.tinyakov.picnet.controller;
 
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,9 +9,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.tinyakov.picnet.domain.User;
-import ru.tinyakov.picnet.domain.UserDto;
+import ru.tinyakov.picnet.domain.dto.UserDto;
 import ru.tinyakov.picnet.exception.InvalidDataException;
-import ru.tinyakov.picnet.repository.UserRepository;
 import ru.tinyakov.picnet.service.UserService;
 
 import java.util.Optional;
@@ -50,6 +47,7 @@ public class UserController {
 
     @GetMapping(path = "/user/reg")
     private String getRegisterForm(){
+        log.info("getRegisterForm");
         return "reg";
     }
 
