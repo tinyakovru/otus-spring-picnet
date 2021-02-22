@@ -22,6 +22,9 @@ spring:
       enabled: true
       location: ${java.io.tmpdir}
       max-request-size: 6000KB
+  web:
+    resources:
+      static-locations: file:/work/otus-spring/homework/project/, classpath:/static/
 #  web:
 #    resources:
 #      static-locations: /work/otus-spring/homework/project/pics/
@@ -31,7 +34,7 @@ logging:
     root: info
 #    org.springframework.security: DEBUG
 picnet:
-  pic-on-page: 4
+  pic-on-page: 2
   top-user: 5
   storedir: ${STORE_DIR:C:/work/otus-spring/homework/project/pics}
   pic:

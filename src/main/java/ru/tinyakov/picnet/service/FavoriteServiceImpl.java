@@ -8,6 +8,9 @@ import ru.tinyakov.picnet.domain.User;
 import ru.tinyakov.picnet.repository.FavoriteRepository;
 import ru.tinyakov.picnet.repository.UserRepository;
 
+import java.security.Principal;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class FavoriteServiceImpl implements FavoriteService {
@@ -22,10 +25,19 @@ public class FavoriteServiceImpl implements FavoriteService {
     }
 
     @Override
-    public void delete(String nickname, long picId) {
-        User user = userRepository.findByNickname(nickname);
+    public Optional<Favorite> get(long userId, long picId) {
+        return favoriteRepository.findById(new FavoriteKey(userId,picId));
+    }
+
+    @Override
+    public int getCountByPicId(long picId) {
+        return favoriteRepository.countByPicId(picId);
+    }
+
+    @Override
+    public void delete(long userId, long picId) {
         favoriteRepository
-                .findById(new FavoriteKey(user.getId(), picId))
+                .findById(new FavoriteKey(userId, picId))
                 .ifPresent(favoriteRepository::delete);
     }
 }

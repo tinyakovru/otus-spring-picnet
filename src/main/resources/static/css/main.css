@@ -1,11 +1,21 @@
 h1{
-	color:#0000FF;
+	color:lightslategray;
 }
 
 h2{
-	color:#FF0000;
+	color:#888899;
 }
 
 footer{
     margin-top:60px;
+}
+div{
+
+}
+
+div.comment{
+	width: 70%;
+	background-color: #CCDDEE;
+	padding: 10px;
+	margin-bottom: 5px;
 }

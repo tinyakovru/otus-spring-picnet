@@ -5,7 +5,7 @@
         <link rel="stylesheet" type="text/css"
               href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
 
-        <link rel="stylesheet" th:href="@{/static/css/main.css}"
+        <link rel="stylesheet" th:href="@{/css/main.css}"
               href="../../static/css/main.css" />
     </div>
 </head>
@@ -15,11 +15,12 @@
     <nav class="navbar navbar-inverse">
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" th:href="@{/home}">PicNet</a>
+                <a class="navbar-brand" th:href="@{/pic/new/pg/1}">PicNet</a>
             </div>
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a th:href="@{/pics}">images</a></li>
+                    <li class="active"><a th:href="@{/pic/new/pg/1}">new images</a></li>
+                    <li class="active"><a th:href="@{/pic/popular/pg/1}">popular images</a></li>
                     <li class="active"><a th:href="@{/me}">profile</a></li>
                     <li class="active"><a th:href="@{/login}">login</a></li>
                 </ul>

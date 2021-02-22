@@ -4,13 +4,17 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import ru.tinyakov.picnet.domain.dto.UserDto;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Set;
 
+
 @Data
+@ToString(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
@@ -18,10 +22,13 @@ import java.util.Set;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ToString.Include
     private long id;
 
+    @ToString.Include
     private String email;
 
+    @ToString.Include
     private String nickname;
 
     private String pass;
@@ -30,6 +37,7 @@ public class User {
 
     private String avatar;
 
+    @ToString.Include
     private int rating;
 
     private int status;
@@ -46,10 +54,10 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, targetEntity = Pic.class, mappedBy = "userOwner")
     private Set<Pic> ownPics;
 
-//    @JsonIgnore
-//    @EqualsAndHashCode.Exclude
-//    @ManyToMany(mappedBy = "usersFavorite", fetch = FetchType.LAZY)
-//    private Set<Pic> favoritePics;
+    @JsonIgnore
+    @EqualsAndHashCode.Exclude
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = Comment.class, mappedBy = "user")
+    private List<Comment> comments;
 
     @JsonIgnore
     @EqualsAndHashCode.Exclude

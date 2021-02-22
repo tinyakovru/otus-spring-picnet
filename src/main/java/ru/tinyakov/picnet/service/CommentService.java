@@ -19,6 +19,14 @@ public class CommentService {
     private final UserRepository userRepository;
     private final PicRepository picRepository;
 
+    public void createComment(String commentText, User user, long picId){
+        Comment comment = new Comment();
+        comment.setText(commentText);
+        comment.setPic(picRepository.getOne(picId));
+        comment.setUser(user);
+        commentRepository.save(comment);
+    }
+
     public void deleteComment(String nickname, long picId) {
         log.info("delete comment nickname:{} picID:{}",nickname,picId);
         User user = userRepository.findByNickname(nickname);

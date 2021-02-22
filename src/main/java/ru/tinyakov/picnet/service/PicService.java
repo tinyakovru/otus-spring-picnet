@@ -2,33 +2,62 @@ package ru.tinyakov.picnet.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import ru.tinyakov.picnet.domain.Pic;
-import ru.tinyakov.picnet.domain.Tag;
-import ru.tinyakov.picnet.domain.User;
+import ru.tinyakov.picnet.domain.*;
 import ru.tinyakov.picnet.domain.dto.PicInfoDto;
+import ru.tinyakov.picnet.domain.dto.PicPageDto;
+import ru.tinyakov.picnet.exception.InvalidPicSortException;
 import ru.tinyakov.picnet.exception.PicNotFoundException;
+import ru.tinyakov.picnet.repository.CommentRepository;
 import ru.tinyakov.picnet.repository.PicRepository;
 import ru.tinyakov.picnet.repository.TagRepository;
 import ru.tinyakov.picnet.repository.UserRepository;
 
-import java.util.Arrays;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class PicService {
+    @Value("${picnet.pic-on-page}")
+    private int picOnPage;
+
     private final PicRepository picRepository;
     private final UserRepository userRepository;
     private final TagRepository tagRepository;
+    private final CommentRepository commentRepository;
     private final TagService tagService;
+    private final FavoriteService favoriteService;
 
 
-    public Pic getPic(long id) {
-        return picRepository.getOne(id);
+    public PicPageDto getPic(long id, Authentication authentication) {
+        PicPageDto picPage = new PicPageDto();
+        Pic pic = picRepository.getOne(id);
+        User owner = pic.getUserOwner();
+//        pic.getComments();
+        picPage.setPic(pic);
+
+        boolean isLiked = false;
+
+        if (authentication != null) {
+            PicnetUserPrincipal principal = (PicnetUserPrincipal) authentication.getPrincipal();
+            picPage.setAuth(true);
+            Optional<Favorite> optionalFavorite = favoriteService.get(principal.getUser().getId(), pic.getId());
+            if (optionalFavorite.isPresent())
+                isLiked = true;
+        }
+        log.info("isLiked={}", isLiked);
+        picPage.setLiked(isLiked);
+        picPage.setNickname(owner.getNickname());
+        picPage.setUserId(owner.getId());
+        picPage.setLikeCount(favoriteService.getCountByPicId(pic.getId()));
+//        picPage.setComments(commentRepository.findByPicAndStatus(pic,1));
+        return picPage;
     }
 
     public Pic createPic(String[] paths, User user) {
@@ -51,9 +80,30 @@ public class PicService {
     }
 
     public Page<Pic> getPicsByTag(long tagId, int page) {
-        Pageable pageable = PageRequest.of(page-1, 2);
+        Pageable pageable = PageRequest.of(page - 1, picOnPage);
         Tag tag = tagRepository.getOne(tagId);
-        return picRepository.findByTagsContaining(tag,pageable);
+        return picRepository.findByTagsContainingAndStatus(tag, 1, pageable);
 
+    }
+
+    public Page<Pic> getPics(String sort, int page) throws InvalidPicSortException {
+        log.info("getPics: sort={}", sort);
+        Pageable pageable = PageRequest.of(page - 1, picOnPage);
+        if (sort.equals("new"))
+            return picRepository.findByStatusOrderByIdDesc(1, pageable);
+        if (sort.equals("popular"))
+            return picRepository.findByStatusOrderByRatingDesc(1, pageable);
+        throw new InvalidPicSortException("invalid sort parameter. Sort should be 'new' or 'popular'");
+    }
+
+    public Page<Pic> getPicsByUser(User user, int page) {
+        Pageable pageable = PageRequest.of(page - 1, picOnPage);
+        return picRepository.findByUserOwnerAndStatus(user, 1, pageable);
+    }
+
+    public Optional<Pic> getMyPic(long picId, Authentication authentication) {
+        if (authentication == null) return Optional.empty();
+        PicnetUserPrincipal principal = (PicnetUserPrincipal) authentication.getPrincipal();
+        return picRepository.findByIdAndUserOwner(picId, principal.getUser());
     }
 }

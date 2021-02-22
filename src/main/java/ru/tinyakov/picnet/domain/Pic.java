@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -12,17 +13,22 @@ import java.util.Set;
 
 @Entity
 @Data
+@ToString(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 @EqualsAndHashCode
 public class Pic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ToString.Include
     private long id;
+
+    @ToString.Include
     private String title;
     private String descr;
 
     //url large picture
     @Column(name = "url_l")
+    @ToString.Include
     private String urlL;
 
     //url small picture
@@ -47,24 +53,12 @@ public class Pic {
     @EqualsAndHashCode.Exclude
     private User userOwner;
 
-//    @EqualsAndHashCode.Exclude
-//    @ManyToMany(targetEntity = User.class, fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-//    @JoinTable(name = "favorite",
-//            joinColumns = @JoinColumn(name = "pic_id",
-//                    referencedColumnName = "id",
-//                    nullable = false,
-//                    updatable = false),
-//            inverseJoinColumns = @JoinColumn(name = "user_id",
-//                    referencedColumnName = "id",
-//                    nullable = false,
-//                    updatable = false))
-//    private Set<User> usersFavorite;
-
     @JsonIgnore
     @EqualsAndHashCode.Exclude
     @OneToMany(fetch = FetchType.LAZY, targetEntity = Favorite.class, mappedBy = "pic")
     private Set<Favorite> favorites;
 
+    @JsonIgnore
     @EqualsAndHashCode.Exclude
     @OneToMany(targetEntity = Comment.class, fetch = FetchType.LAZY, mappedBy = "pic")
     private Set<Comment> comments;

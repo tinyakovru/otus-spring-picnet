@@ -64,4 +64,7 @@ public class TagService {
         picRepository.save(pic);
     }
 
+    public Tag getTag(long tagId) {
+        return tagRepository.getOne(tagId);
+    }
 }

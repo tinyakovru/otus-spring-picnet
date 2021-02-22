@@ -15,15 +15,16 @@ public class Comment {
 
     private String text;
 
-    private Timestamp date;
+    private Timestamp date = new Timestamp(System.currentTimeMillis());
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Pic.class)
+
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Pic.class)
     @JoinColumn(name = "pic_id")
     private Pic pic;
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = User.class)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
     @JoinColumn(name = "user_id")
     private User user;
 
-    private int status;
+    private int status = 1;
 }

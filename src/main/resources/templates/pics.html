@@ -11,34 +11,22 @@
 <div th:replace="fragments/header :: header"/>
 
 
-
 <div class="container">
-    <div th:text="${picsPage.getTotalElements()}"></div>
-    <div th:text="${picsPage.getTotalPages()}"></div>
-    <div th:text="${picsPage.getNumber()}"></div>
-    <a th:if="${picsPage.getNumber()} > 0" th:href="@{/pic/tag/{id}/pg/{pg}(id=${tagId}, pg=${picsPage.getNumber()})}" th:text=" prev ">prev</a>
-
-    <a th:if="${picsPage.getTotalPages()} > ${picsPage.getNumber()+1}" th:href="@{/pic/tag/{id}/pg/{pg}(id=${tagId},pg=${picsPage.getNumber()+2})}" th:text=" next ">next</a>
+    <h2 th:text="${titlePage}">Title pics</h2>
     <div th:each="pic : ${picsPage.content}">
         <div class="starter-template">
-            <a th:href="@{/pic/{id}(id=${pic.getId()})}" th:text="${pic.getTitle()}">title</a>
-            <img th:src="@{'/pics'+${pic.getUrlS()}}" src="">
+            <a th:href="@{/pic/{id}(id=${pic.getId()})}" th:text="${pic.getTitle()}">title</a><br>
+            <a th:href="@{/pic/{id}(id=${pic.getId()})}" >
+                <img th:src="@{'/pics'+${pic.getUrlS()}}" src="">
+            </a>
         </div>
     </div>
-    <!--<div class="starter-template" th:each="tag : ${pic.getTags()}">
-        <a th:text="${tag.getName()}" th:href="@{/pic/tag/{id}(id=${tag.getId()})}"></a>
-    </div>
-
-    <form th:action="@{'/favorite/pic/'+${pic.getId()}}" th:method="post">
-        <input type="submit" value="like"/>
-    </form>
-
-    <form th:action="@{'/favorite/pic/'+${pic.getId()}}" th:method="delete">
-        <input type="submit" value="dislike"/>
-    </form>
-    <form th:action="@{'/comment/pic/'+${pic.getId()}}" th:method="DELETE">
-        <input type="submit" name="comment delete" value="comment delete"/>
-    </form>-->
+    <a th:if="${picsPage.getNumber()} > 0"
+       th:href="@{'./{pg}'(pg=${picsPage.getNumber()})}"
+       th:text=" prev ">prev</a>
+    <a th:if="${picsPage.getTotalPages()} > ${picsPage.getNumber()+1}"
+       th:href="@{'./{pg}'(pg=${picsPage.getNumber()+2})}"
+       th:text=" next ">next</a>
 </div>
 
 
