@@ -53,12 +53,12 @@ public class PicController {
     //страница с картинками отсортированными по новизне, популярности sort=new,popular
     //pic/{sort}
     @GetMapping("/pic/{sort}/pg/{pg}")
-    public ModelAndView getPicsByTag(@PathVariable String sort, @PathVariable int pg){
+    public ModelAndView getPicsByTag(@PathVariable String sort, @PathVariable int pg) {
         try {
-            Page<Pic> picsPage = picService.getPics(sort,pg);
+            Page<Pic> picsPage = picService.getPics(sort, pg);
             ModelAndView modelAndView = new ModelAndView("pics");
-            modelAndView.addObject("picsPage",picsPage);
-            modelAndView.addObject("titlePage",sort+" pics");
+            modelAndView.addObject("picsPage", picsPage);
+            modelAndView.addObject("titlePage", sort + " pics");
             return modelAndView;
         } catch (InvalidPicSortException e) {
             log.error(e.toString());
@@ -69,24 +69,42 @@ public class PicController {
     //страница с картинками по тегу
     //pic/tag/{id}
     @GetMapping("/pic/tag/{tagId}/pg/{pg}")
-    public ModelAndView getPicsByTag(@PathVariable long tagId, @PathVariable int pg){
+    public ModelAndView getPicsByTag(@PathVariable long tagId, @PathVariable int pg) {
         Tag tag = tagService.getTag(tagId);
-        Page<Pic> picsPage = picService.getPicsByTag(tagId,pg);
+        Page<Pic> picsPage = picService.getPicsByTag(tagId, pg);
         ModelAndView modelAndView = new ModelAndView("pics");
-        modelAndView.addObject("picsPage",picsPage);
-        modelAndView.addObject("titlePage",tag.getName());
+        modelAndView.addObject("picsPage", picsPage);
+        modelAndView.addObject("titlePage", tag.getName());
         return modelAndView;
     }
 
     //страница картинок загруженных пользователем
     //pic/user/{id}
     @GetMapping("/pic/user/{userId}/pg/{pg}")
-    public ModelAndView getPicsByUser(@PathVariable long userId, @PathVariable int pg){
+    public ModelAndView getPicsByUser(@PathVariable long userId, @PathVariable int pg) {
         User user = userService.getUserById(userId).orElseThrow();
-        Page<Pic> picsPage = picService.getPicsByUser(user,pg);
+        Page<Pic> picsPage = picService.getPicsByUser(user, pg);
         ModelAndView modelAndView = new ModelAndView("pics");
-        modelAndView.addObject("picsPage",picsPage);
-        modelAndView.addObject("titlePage",user.getNickname()+"'s pictures");
+        modelAndView.addObject("picsPage", picsPage);
+        modelAndView.addObject("titlePage", user.getNickname() + "'s pictures");
+        return modelAndView;
+    }
+
+    /////////////////////////////////////////////////
+    //    Me
+    /////////////////////////////////////////////////
+
+    //страница с картинками пользователя для редактирования и загрузки новых
+    @GetMapping("/me/pg/{pg}")
+    public ModelAndView me(@PathVariable int pg, Authentication authentication) {
+        if (authentication == null) return new ModelAndView("err");
+
+        PicnetUserPrincipal principal = (PicnetUserPrincipal) authentication.getPrincipal();
+        User user = principal.getUser();
+        Page<Pic> picsPage = picService.getOwnPics(user, pg);
+        ModelAndView modelAndView = new ModelAndView("me");
+        modelAndView.addObject("isAuth", true);
+        modelAndView.addObject("picsPage", picsPage);
         return modelAndView;
     }
 
@@ -131,7 +149,7 @@ public class PicController {
         log.info("GET pagePicEdit");
         PicnetUserPrincipal principal = (PicnetUserPrincipal) authentication.getPrincipal();
         Optional<Pic> optPic = picService.getMyPic(picId, authentication);
-        if(optPic.isPresent()) {
+        if (optPic.isPresent()) {
             Pic pic = optPic.get();
             ModelAndView modelAndView = new ModelAndView("picEdit");
             modelAndView.addObject(pic);

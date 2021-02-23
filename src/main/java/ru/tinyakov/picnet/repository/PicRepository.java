@@ -20,6 +20,9 @@ public interface PicRepository extends JpaRepository<Pic,Long> {
 
     Page<Pic> findByUserOwnerAndStatus(User user, int status, Pageable pageable);
 
+    Page<Pic> findByUserOwner(User user, Pageable pageable);
+
     Optional<Pic> findByIdAndUserOwner(long id, User user);
+
 
 }

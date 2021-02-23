@@ -106,4 +106,9 @@ public class PicService {
         PicnetUserPrincipal principal = (PicnetUserPrincipal) authentication.getPrincipal();
         return picRepository.findByIdAndUserOwner(picId, principal.getUser());
     }
+
+    public Page<Pic> getOwnPics(User user, int page) {
+        Pageable pageable = PageRequest.of(page - 1, picOnPage);
+        return picRepository.findByUserOwner(user, pageable);
+    }
 }
