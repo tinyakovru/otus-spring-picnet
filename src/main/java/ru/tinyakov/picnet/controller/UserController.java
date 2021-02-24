@@ -19,25 +19,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 public class UserController {
-
     private final UserService userService;
-
-//    @Autowired
-//    public UserController(UserService userService) {
-//        this.userService = userService;
-//    }
-
-    @GetMapping("/user/{id}")
-    private String getUserById(@PathVariable long id, Model model) {
-        log.info("req user id={}", id);
-        Optional<User> oUser = userService.getUserById(id);
-        if (oUser.isPresent()) {
-            model.addAttribute(oUser.get());
-            return "page";
-        }
-        System.out.println("getUserById return error");
-        return "err";
-    }
 
     @GetMapping(path = "/user/top", produces = "application/json")
     private @ResponseBody
@@ -55,18 +37,8 @@ public class UserController {
     private @ResponseBody
     User createUser( @ModelAttribute("UserDto") UserDto userDto,
                     BindingResult result, ModelMap model) throws InvalidDataException {
-
-//        if (result.hasErrors()) {
-//            return "error";
-//        }
-//        model.addAttribute("name", employee.getName());
-//        model.addAttribute("contactNumber", employee.getContactNumber());
-//        model.addAttribute("id", employee.getId());
-//        return "employeeView";
-
         User user = userService.createUser(userDto);
         return user;
-        //model.addAllAttributes("user", user)
     }
 
 

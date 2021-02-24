@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -64,6 +66,7 @@ public class Pic {
     private Set<Comment> comments;
 
     @ManyToMany
+    @Fetch(FetchMode.SUBSELECT)
     @EqualsAndHashCode.Exclude
     @JoinTable(name = "pic_tag",
             joinColumns = @JoinColumn(name = "pic_id"),

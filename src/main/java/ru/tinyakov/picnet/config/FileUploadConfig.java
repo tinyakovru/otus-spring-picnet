@@ -12,8 +12,4 @@ public class FileUploadConfig {
         return multipartResolver;
     }
 
-//    @Bean
-//    public StandardServletMultipartResolver multipartResolver() {
-//        return new StandardServletMultipartResolver();
-//    }
 }

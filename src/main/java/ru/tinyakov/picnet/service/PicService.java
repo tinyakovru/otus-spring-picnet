@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
 import ru.tinyakov.picnet.domain.*;
 import ru.tinyakov.picnet.domain.dto.PicInfoDto;
 import ru.tinyakov.picnet.domain.dto.PicPageDto;
@@ -34,12 +36,10 @@ public class PicService {
     private final TagService tagService;
     private final FavoriteService favoriteService;
 
-
     public PicPageDto getPic(long id, Authentication authentication) {
         PicPageDto picPage = new PicPageDto();
         Pic pic = picRepository.getOne(id);
         User owner = pic.getUserOwner();
-//        pic.getComments();
         picPage.setPic(pic);
 
         boolean isLiked = false;
@@ -51,12 +51,10 @@ public class PicService {
             if (optionalFavorite.isPresent())
                 isLiked = true;
         }
-        log.info("isLiked={}", isLiked);
         picPage.setLiked(isLiked);
         picPage.setNickname(owner.getNickname());
         picPage.setUserId(owner.getId());
         picPage.setLikeCount(favoriteService.getCountByPicId(pic.getId()));
-//        picPage.setComments(commentRepository.findByPicAndStatus(pic,1));
         return picPage;
     }
 
@@ -110,5 +108,22 @@ public class PicService {
     public Page<Pic> getOwnPics(User user, int page) {
         Pageable pageable = PageRequest.of(page - 1, picOnPage);
         return picRepository.findByUserOwner(user, pageable);
+    }
+
+    public Optional<Pic> getPicForModer() {
+        return picRepository.getFirstByStatus(0);
+    }
+
+    public void moderPic(long picId, String isOk) {
+        Pic pic = picRepository.getOne(picId);
+        switch (isOk){
+            case "ok":
+                pic.setStatus(1);
+                break;
+            case "no":
+                pic.setStatus(2);
+                break;
+        }
+        picRepository.save(pic);
     }
 }

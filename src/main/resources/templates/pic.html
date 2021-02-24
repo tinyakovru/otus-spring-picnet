@@ -44,7 +44,7 @@
         </div><h1>Comments:</h1>
         <div th:each="comment : ${picPageDto.getPic().getComments()}">
             <div th:if="${comment.getStatus()}==1" class="comment">
-            <a th:text="${comment.getUser().getNickname()}" th:href="@{/user/{id}(id=${comment.getUser().getId()})}">user</a>
+            <a th:text="${comment.getUser().getNickname()}" th:href="@{/pic/user/{id}/pg/1(id=${comment.getUser().getId()})}">user</a>
             <div th:text="${comment.getText()}">comment text comment text </div>
             </div>
         </div>

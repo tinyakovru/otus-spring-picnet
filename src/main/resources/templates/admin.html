@@ -13,9 +13,16 @@
         <h1>Admin page (Spring Security protected)</h1>
 
         <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
-        <form th:action="@{/logout}" method="post">
-            <input type="submit" value="Sign Out"/>
-        </form>
+
+        <div th:if="${pic!=null}">
+            <img th:src="@{'/pics'+${pic.getUrlL()}}"  />
+            <form th:action="@{/moder/pic/{id}/ok(id=${pic.getId()})}" th:method="put">
+                <input type="submit" value="ok">
+            </form>
+            <form th:action="@{/moder/pic/{id}/no(id=${pic.getId()})}" th:method="put">
+                <input type="submit" value="no">
+            </form>
+        </div>
 
     </div>
 

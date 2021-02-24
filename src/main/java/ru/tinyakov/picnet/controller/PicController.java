@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.dom4j.rule.Mode;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -35,17 +36,8 @@ public class PicController {
     @GetMapping("/pic/{id}")
     public ModelAndView getPic(@PathVariable long id, Authentication authentication) {
         PicPageDto picPage = picService.getPic(id, authentication);
-//        Pic pic = picService.getPic(id);
         ModelAndView modelAndView = new ModelAndView("pic");
         modelAndView.addObject(picPage);
-//        boolean isLiked = false;
-//        if(authentication != null) {
-//            PicnetUserPrincipal principal = (PicnetUserPrincipal) authentication.getPrincipal();
-//            Favorite favorite = new Favorite(principal.getUser().getId(), pic.getId());
-//            isLiked = (principal != null) && pic.getFavorites().contains(favorite);
-//        }
-//        log.info("isLiked={}",isLiked);
-//        modelAndView.addObject("isLiked", isLiked);
         return modelAndView;
     }
 
@@ -86,7 +78,7 @@ public class PicController {
         Page<Pic> picsPage = picService.getPicsByUser(user, pg);
         ModelAndView modelAndView = new ModelAndView("pics");
         modelAndView.addObject("picsPage", picsPage);
-        modelAndView.addObject("titlePage", user.getNickname() + "'s pictures");
+        modelAndView.addObject("titlePage", user.getNickname() + "'s pictures (rating: "+user.getRating()+")" );
         return modelAndView;
     }
 
@@ -180,15 +172,12 @@ public class PicController {
     }
 
     //модерация картинки
-    //PUT /moder/pic/{id}
-
-    ////////////////////////////////////////////////////
-    //лайк картинки
-    //POST /pic/{id}/favorite
-//    @PostMapping("/pic/{pid}/favorite")
-//    public ModelAndView addFavoritePic(@PathVariable long pid, Authentication authentication, Model model) {
-//        String nickname = authentication.getName();
-//        picService.addFavorite(pid, nickname);
-//        return new ModelAndView("redirect:/pic/" + pid);
-//    }
+    //PUT /moder/pic/{id}/{isOk}
+    @PutMapping("/moder/pic/{picId}/{isOk}")
+    public ModelAndView moderPic(@PathVariable long picId, @PathVariable String isOk, Authentication authentication) {
+        if (!(isOk.equals("ok") || isOk.equals("no")))
+            return new ModelAndView("err");
+        picService.moderPic(picId,isOk);
+        return new ModelAndView("redirect:/admin");
+    }
 }

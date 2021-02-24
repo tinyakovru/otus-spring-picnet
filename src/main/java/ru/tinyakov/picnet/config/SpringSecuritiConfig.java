@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -24,11 +25,6 @@ public class SpringSecuritiConfig extends WebSecurityConfigurerAdapter {
         this.dataSource = dataSource;
     }
 
-   /* @Override
-    public void configure(WebSecurity web) throws Exception {
-        super.configure(web);
-    }*/
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
@@ -37,12 +33,7 @@ public class SpringSecuritiConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests().antMatchers("/me/**").authenticated()
                 .and()
-                .authorizeRequests().antMatchers("/admin","/admin/**").hasAnyRole("ADMIN")
-//                .authorizeRequests().antMatchers("/admin/**").hasAnyRole( "ADMIN", "USER" )
-
-//                .antMatchers("/admin/**","/simple").hasAnyRole("ADMIN")
-//                .antMatchers("/user/**").hasAnyRole("USER")
-//                .anyRequest().authenticated()
+                .authorizeRequests().antMatchers("/admin/**","/moder/**").hasAnyRole("ADMIN")
                 .and()
                 .formLogin()
                 .loginPage("/login")
@@ -54,27 +45,6 @@ public class SpringSecuritiConfig extends WebSecurityConfigurerAdapter {
 //                .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
     }
 
-//    @Autowired
-//    public void configureGlobal(AuthenticationManagerBuilder auth)
-//            throws Exception {
-//        auth.userDetailsService(PicnetUserDetailsService)
-////                .jdbcAuthentication()
-////                .dataSource(dataSource)
-////                .usersByUsernameQuery("select email,pass "
-////                        + "from users "
-////                        + "where email = ?")
-////                .authoritiesByUsernameQuery("select email,role "
-////                        + "from authorities "
-////                        + "where email = ?");
-//    }
-
-//    @Autowired
-//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-////        auth.inMemoryAuthentication()
-////                .withUser("user").password("password").roles("USER")
-////                .and()
-////                .withUser("admin").password("password").roles("ADMIN");
-//    }
 
     //Spring Boot configured this already.
     @Override
