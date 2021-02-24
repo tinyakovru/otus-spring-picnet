@@ -36,22 +36,4 @@
 Пользователь
 Хештег
 Комментарий
-
-Routes:
-- /user       - GET my page; POST register new user; PUT edit my profile;
-- /user/edit  - GET form for edit profile;
-- /user/top
-- /user/{id}  - user page
-- /user/{id}/favorite       - GET POST DELETE users favorite pics
-- /user/{id}/pic            - GET POST users pics add , get all
-- /user/{id}/pic/{id}       - GET PUT DELETE users pic {id}
-
-
-- /pic      - картинки по дате
-- /pic/{id} - картинка id
-- /pic/tag/{id}     - картинки по тегу
-- /pic/tag/{id1}/{id2}
-- /pic/tag/{id1}/{id2}/{id}
-- /pic/raiting/
-
-- /tag      - tags
+Favorite (лайк картинки)
