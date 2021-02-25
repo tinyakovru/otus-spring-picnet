@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>PicNet</title>
+
+    <div th:replace="fragments/header :: header-css"/>
+    <script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"/>
+
+<div class="container">
+    <div>
+        <h1>Top</h1>
+        <table class="persons">
+            <thead>
+            <tr>
+                <th>user</th>
+                <th>rating</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</div>
+<!-- /.container -->
+
+<div th:replace="fragments/footer :: footer"/>
+
+<script>
+    $(function () {
+        $.get('/user/top').done(function (page) {
+            page.content.forEach(function (user) {
+                $('tbody').append(`
+                    <tr>
+                        <td width="300px">${user.nickname}</td>
+                        <td>${user.rating}</td>
+                    </tr>
+                `)
+            });
+        })
+    });
+</script>
+</body>
+</html>
