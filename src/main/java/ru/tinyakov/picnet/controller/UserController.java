@@ -21,6 +21,11 @@ import java.util.Optional;
 public class UserController {
     private final UserService userService;
 
+    @GetMapping(path = "users")
+    private String getUsersTopPage(){
+        return "top";
+    }
+
     @GetMapping(path = "/user/top", produces = "application/json")
     private @ResponseBody
     Page<User> getUserTop() {
