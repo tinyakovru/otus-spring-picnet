@@ -13,7 +13,10 @@ import java.util.Optional;
 
 public interface PicRepository extends JpaRepository<Pic,Long> {
 
-    @PostAuthorize("returnObject.status == 1 or hasRole('ADMIN') or authentication.name == returnObject.userOwner.nickname")
+    @PostAuthorize(
+                    "returnObject.status == 1 " +
+                    "or hasRole('ADMIN') " +
+                    "or authentication.name == returnObject.userOwner.nickname")
     Pic getOne(long id);
 
     Page<Pic> findByTagsContainingAndStatus(Tag tag, int status, Pageable pageable);
