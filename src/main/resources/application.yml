@@ -25,14 +25,23 @@ spring:
   web:
     resources:
       static-locations: ${STORAGE_PATH:file:/work/otus-spring/homework/project/, classpath:/static/}
-#  web:
-#    resources:
-#      static-locations: /work/otus-spring/homework/project/pics/
+
 management:
+  health:
+    DbHealthCustom:
+      enabled: true
+    db:
+      enabled: true
   endpoints:
     web:
       exposure:
         include: health,loggers,metrics
+  endpoint:
+    health:
+      show-details: always
+      group:
+        custom:
+          include: db
 logging:
   level:
     root: info
