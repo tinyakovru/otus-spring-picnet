@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://127.0.0.1:5432/picnetdb
-    username: postgres
-    password: debd1867
+    url: ${DB_URL:jdbc:postgresql://127.0.0.1:5432/picnetdb}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:debd1867}
   flyway:
     enabled: true
   jpa:
@@ -24,11 +24,24 @@ spring:
       max-request-size: 6000KB
   web:
     resources:
-      static-locations: file:/work/otus-spring/homework/project/, classpath:/static/
-#  web:
-#    resources:
-#      static-locations: /work/otus-spring/homework/project/pics/
+      static-locations: ${STORAGE_PATH:file:/work/otus-spring/homework/project/, classpath:/static/}
 
+management:
+  health:
+    DbHealthCustom:
+      enabled: true
+    db:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health,loggers,metrics
+  endpoint:
+    health:
+      show-details: always
+      group:
+        custom:
+          include: db
 logging:
   level:
     root: info
