@@ -1,8 +1,9 @@
 spring:
   datasource:
-    url: jdbc:postgresql://127.0.0.1:5432/picnetdb
-    username: postgres
-    password: debd1867
+    driver-class-name: ${DB_DRIVER}
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
   flyway:
     enabled: true
   jpa:
@@ -24,7 +25,7 @@ spring:
       max-request-size: 6000KB
   web:
     resources:
-      static-locations: file:/work/otus-spring/homework/project/, classpath:/static/
+      static-locations: ${STORAGE_PATH:file:/work/otus-spring/homework/project/, classpath:/static/}
 #  web:
 #    resources:
 #      static-locations: /work/otus-spring/homework/project/pics/
