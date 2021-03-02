@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>PicNet</title>
+
+    <div th:replace="fragments/header :: header-css"/>
+
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"/>
+
+
+<div class="container">
+    <h2 th:text="${titlePage}">Title pics</h2>
+    <div th:each="pic : ${picsPage.content}">
+        <div class="starter-template">
+            <a th:href="@{/pic/{id}(id=${pic.getId()})}" th:text="${pic.getTitle()}">title</a><br>
+            <a th:href="@{/pic/{id}(id=${pic.getId()})}" >
+                <img th:src="@{'/pics'+${pic.getUrlS()}}" src="">
+            </a>
+        </div>
+    </div>
+    <a th:if="${picsPage.getNumber()} > 0"
+       th:href="@{'./{pg}'(pg=${picsPage.getNumber()})}"
+       th:text=" prev ">prev</a>
+    <a th:if="${picsPage.getTotalPages()} > ${picsPage.getNumber()+1}"
+       th:href="@{'./{pg}'(pg=${picsPage.getNumber()+2})}"
+       th:text=" next ">next</a>
+</div>
+
+
+</div>
+<!-- /.container -->
+
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>PicNet</title>
+
+    <div th:replace="fragments/header :: header-css"/>
+
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"/>
+
+<div class="container">
+    <div>
+        <h1 th:text="${picPageDto.getPic().getTitle()}">title</h1>
+        <p>Loaded: <a th:text="${picPageDto.getNickname()}"
+                      th:href="@{/pic/user/{id}/pg/1(id=${picPageDto.getUserId()})}">user</a></p>
+        <img th:src="@{'/pics'+${picPageDto.getPic().getUrlL()}}" src="">
+        <div class="starter-template">
+            Tags:
+            <span th:each="tag : ${picPageDto.getPic().getTags()}">
+            <a th:text="${tag.getName()}" th:href="@{/pic/tag/{id}/pg/1(id=${tag.getId()})}">tagname</a>
+        </span>
+        </div>
+        <div class="starter-template" th:text="'likes: '+${picPageDto.getLikeCount()}">rating</div>
+
+        <!--        <div th:if="${auth == true}">-->
+<!--        <div th:text="'liked '+${picPageDto.isLiked()}"></div>-->
+        <div th:if="${picPageDto.isAuth()}">
+            <form th:if="${picPageDto.isLiked()}" th:action="@{'/favorite/pic/'+${picPageDto.getPic().getId()}}"
+                  th:method="delete">
+                <!--            <input type="submit" value="like"/>-->
+                <input type="image" name="submit" alt="submit" src="/heart1.jpg">
+            </form>
+            <form th:unless="${picPageDto.isLiked()}" th:action="@{'/favorite/pic/'+${picPageDto.getPic().getId()}}"
+                  th:method="post">
+                <!--            <input type="submit" value="like"/>-->
+                <input type="image" name="submit" alt="submit" src="/heart2.jpg">
+            </form>
+        </div>
+        <div th:text="'Description: '+${picPageDto.getPic().getDescr()}">description description description description
+            description
+            description
+        </div><h1>Comments:</h1>
+        <div th:each="comment : ${picPageDto.getPic().getComments()}">
+            <div th:if="${comment.getStatus()}==1" class="comment">
+            <a th:text="${comment.getUser().getNickname()}" th:href="@{/pic/user/{id}/pg/1(id=${comment.getUser().getId()})}">user</a>
+            <div th:text="${comment.getText()}">comment text comment text </div>
+            </div>
+        </div>
+        <div>
+            <form th:if="${picPageDto.isAuth()}"
+                  th:method="post"
+                  th:action="@{/comment/pic/{picId}(picId=${picPageDto.getPic().getId()})}">
+                <input type="text" name="commentText" />
+                <input type="submit" value="send comment" />
+            </form>
+        </div>
+        <!--        <form th:action="@{'/favorite/pic/'+${picPageDto.getPic().getId()}}" th:method="delete">-->
+        <!--            <input type="submit" value="dislike"/>-->
+        <!--        </form>-->
+        <!--        <form th:action="@{'/comment/pic/'+${picPageDto.getPic().getId()}}" th:method="DELETE">-->
+        <!--            <input type="submit" name="comment delete" value="comment delete"/>-->
+        <!--        </form>-->
+    </div>
+</div>
+
+</div>
+<!-- /.container -->
+
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+</html>

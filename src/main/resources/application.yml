@@ -1,0 +1,43 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5432/picnetdb
+    username: postgres
+    password: debd1867
+  flyway:
+    enabled: true
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+  servlet:
+    multipart:
+      max-file-size: 5000KB
+      enabled: true
+      location: ${java.io.tmpdir}
+      max-request-size: 6000KB
+  web:
+    resources:
+      static-locations: file:/work/otus-spring/homework/project/, classpath:/static/
+#  web:
+#    resources:
+#      static-locations: /work/otus-spring/homework/project/pics/
+
+logging:
+  level:
+    root: info
+#    org.springframework.security: DEBUG
+picnet:
+  pic-on-page: 2
+  top-user: 5
+  storedir: ${STORE_DIR:C:/work/otus-spring/homework/project/pics}
+  pic:
+    width1: 600
+    width2: 200
+    width3: 50

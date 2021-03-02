@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"/>
+
+<div class="container">
+
+    <div class="starter-template">
+        <h1>Admin page (Spring Security protected)</h1>
+
+        <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+
+        <div th:if="${pic!=null}">
+            <img th:src="@{'/pics'+${pic.getUrlL()}}"  />
+            <form th:action="@{/moder/pic/{id}/ok(id=${pic.getId()})}" th:method="put">
+                <input type="submit" value="ok">
+            </form>
+            <form th:action="@{/moder/pic/{id}/no(id=${pic.getId()})}" th:method="put">
+                <input type="submit" value="no">
+            </form>
+        </div>
+
+    </div>
+
+</div>
+<!-- /.container -->
+
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+</html>
